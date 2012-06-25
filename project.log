@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2012.2.1)  18 JUN 2012 21:11
+This is pdfTeX, Version 3.1415926-2.3-1.40.12 (TeX Live 2011) (format=latex 2012.2.1)  25 JUN 2012 11:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -101,14 +101,14 @@ LaTeX Font Info:    ... okay on input line 7.
 * \headsep=25.0pt
 * \topskip=11.0pt
 * \footskip=30.0pt
-* \marginparwidth=59.0pt
+* \marginparwidth=4.0pt
 * \marginparsep=10.0pt
 * \columnsep=10.0pt
 * \skip\footins=10.0pt plus 4.0pt minus 2.0pt
 * \hoffset=0.0pt
 * \voffset=0.0pt
 * \mag=1000
-* \@twocolumnfalse
+* \@twocolumntrue
 * \@twosidefalse
 * \@mparswitchfalse
 * \@reversemarginfalse
@@ -122,14 +122,15 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 8.
 [1
 
+
 ] (./project.aux) ) 
 Here is how much of TeX's memory you used:
- 751 strings out of 493630
- 10263 string characters out of 3143368
- 63686 words of memory out of 3000000
- 4111 multiletter control sequences out of 15000+200000
- 7590 words of font info for 27 fonts, out of 3000000 for 9000
+ 753 strings out of 493630
+ 10296 string characters out of 3143368
+ 67690 words of memory out of 3000000
+ 4114 multiletter control sequences out of 15000+200000
+ 8194 words of font info for 29 fonts, out of 3000000 for 9000
  831 hyphenation exceptions out of 8191
- 24i,6n,32p,434b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 24i,7n,32p,402b,209s stack positions out of 5000i,500n,10000p,200000b,50000s
 
-Output written on project.dvi (1 page, 1048 bytes).
+Output written on project.dvi (1 page, 3800 bytes).
