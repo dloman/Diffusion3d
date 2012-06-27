@@ -9,9 +9,9 @@ sz = 40;
 a=abs(rand(10,3));
 
 %scatter3(x, y, z, sz,'r', 'filled')
-hs=scatter3(x, y, z, sz,a, 'filled')
+hs=scatter3(x, y, z, sz,a, 'filled');
 hold on
 %colorbar('YTick', linspace(0, 1, 24), 'YTickLabel', 1:12)
 end
 end
-alpha(hs,.5); 
+alphamap('decrease'); 
