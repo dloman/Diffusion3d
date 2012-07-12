@@ -9,7 +9,6 @@
 #
 
 
-import multiprocessing, time
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -20,29 +19,6 @@ from os import system, remove
 ################################################################################
 def Usage():
   print 'Diffuse.py [n t Initialize BoundryCondition](optional settings)' 
-
-################################################################################
-def WaitForAnyProcessToTerminate(self):
-  while len(self.mProcesses) > 0:
-    for [Key, [Process, Results]] in self.mProcesses.iteritems():
-      if not Process.is_alive():
-        self.mResults[Key] = Results[0]
-        del self.mProcesses[Key]
-        return
-    time.sleep(0.1)
-
-################################################################################
-def AddProcess(self, ScenarioFile, Ic, Uc):
-  while len(self.mProcesses) >= self.mMaxProcesses:
-    self.WaitForAnyProcessToTerminate()
-  Key = (Ic, Uc)
-  Results = multiprocessing.Array("d", 3)
-  Process = multiprocessing.Process( \
-    target=CalculateFacRates, \
-    args=(ScenarioFile, Results, Ic, Uc))
-  Process.start()
-  self.mProcesses[Key] = [Process, Results]
-  print("[IC = " + str(Ic) + ", UC = " + str(Uc) + "]")
 
 ################################################################################
 def Plot(Grid, ax):
@@ -78,9 +54,6 @@ def GetNextGrid(self,Grid,BoundryCondition):
     for j in range(n):
       for k in range(n):
         NextGrid[i,j,k]=Grid[i,j,k]-GetNeighborhoodDifference(Grid,i,j,k,BoundryCondition)  
-        self.AddProcess(ScenarioFile, Ic, Uc)
-      while len(self.mProcesses) > 0:
-        self.WaitForAnyProcessToTerminate()
   return NextGrid
 
     
@@ -98,12 +71,12 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
     ax.cla()
     Plot(Grid,ax)
     fname = '_tmp%03d.png'%i
-    print 'Saving frame', fname
+  #  print 'Saving frame', fname
     fig.savefig(fname)
     Grid=GetNextGrid(Grid,BoundryCondition)
   
   print 'Making movie animation.mpg - this make take a while'
-  system("ffmpeg -qscale 1 -f image2 -i _tmp%03d.png Animation.mpg")
+  system("ffmpeg -y -qscale 1 -f image2 -i _tmp%03d.png Animation.mpg")
   system("rm _tmp* ")
 
 ################################################################################
