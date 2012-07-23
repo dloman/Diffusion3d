@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sys import argv
 from os import system, remove
-
+from string import atoi
 ################################################################################
 ################################################################################
 def Usage():
@@ -84,7 +84,7 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
     fname = '_tmp%03d.png'%i
   #  print 'Saving frame', fname
     fig.savefig(fname)
-  plt.show()
+  #plt.show()
   print 'Making movie animation.mpg - this make take a while'
   system("ffmpeg -y -qscale 1 -f image2 -r 5 -i _tmp%03d.png Animation.mkv")
   system("rm _tmp* ")
@@ -93,15 +93,15 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
 ################################################################################
 if __name__ == '__main__':
   if len(argv)<2:
-    Diffuse(10,10)
+    Diffuse(10,100)
   elif len(argv) == 2:
-    Diffuse(argv[1],100)
+    Diffuse(atoi(argv[1]),100)
   elif len(argv) == 3:
-    Diffuse(argv[1],argv[2])
+    Diffuse(atoi(argv[1]),atoi(argv[2]))
   elif len(argv) == 4:
-    Diffuse(argv[1],argv[2],argv[3])
+    Diffuse(atoi(argv[1]),atoi(argv[2]),atoi(argv[3]))
   elif len(argv) == 5:
-    Diffuse(argv[1],argv[2],argv[3],argv[4])
+    Diffuse(atoi(argv[1]),atoi(argv[2]),atoi(argv[3]),atoi(argv[4]))
   else:
     Usage()
 
