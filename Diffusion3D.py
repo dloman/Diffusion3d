@@ -22,15 +22,9 @@ def Usage():
 
 ################################################################################
 def Plot(Grid, ax):
-  n=len(Grid)
-  for i in range(n):  
-    x=np.ones(n)*i
-    for j in range(n):
-      y =np.ones(n)*j
-      z =range(n)
-      
-      c = Grid[i,j,:]
-      color = ax.scatter(x, y, z, c=c, marker='o')
+  n=len(Grid)+1
+  x, y, z = np.mgrid[1:n,1:n,1:n]
+  color = ax.scatter(x, y, z, c=Grid, marker='o')
   return color
 
 ################################################################################
@@ -54,8 +48,12 @@ def GetNextGrid(Grid,BoundryCondition):
   for i in range(n):
     for j in range(n):
       for k in range(n):
-        NextGrid[i,j,k] = Grid[i,j,k] - \
-                    GetNeighborhoodDifference(Grid[i,j,k],BigGrid,i,j,k)
+        Diff =GetNeighborhoodDifference(Grid[i,j,k],BigGrid,i,j,k)
+        if Diff >.1:
+           NextGrid[i,j,k] = Grid[i,j,k] - Diff
+        else:
+           NextGrid[i,j,k] = 0
+                    
 
   return NextGrid
 
@@ -76,27 +74,31 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
   color = Plot(Grid,ax)
   color.set_clim(0, 10)
   plt.colorbar(color)
-  for i in range(t):
+  print 'time = 0 Grid=\n',Grid
+  fig.savefig('_tmp00000.png')
+  for i in range(1,t):
     ax.cla()
     Grid=GetNextGrid(Grid,BoundryCondition)
     color = Plot(Grid,ax)
-    fname = '_tmp%03d.png'%i
+    print 'time =',i,'Grid=\n',Grid
+    fname = '_tmp%05d.png'%i
   #  print 'Saving frame', fname
     fig.savefig(fname)
   #plt.show()
   print 'Making movie animation.mpg - this make take a while'
-  system("ffmpeg -y -qscale 1 -f image2 -r 5 -i _tmp%03d.png Animation.mkv")
+  system("ffmpeg -y -qscale 1 -f image2 -r 5 -i _tmp%05d.png Animation.mkv")
   system("rm _tmp* ")
 
 ################################################################################
 ################################################################################
 if __name__ == '__main__':
   if len(argv)<2:
-    Diffuse(10,100)
+    Diffuse(4,10)
   elif len(argv) == 2:
     if argv[1]=='-h' or argv[1]=='--help':
       Usage()
-    Diffuse(atoi(argv[1]),100)
+    else:
+      Diffuse(atoi(argv[1]),100)
   elif len(argv) == 3:
     Diffuse(atoi(argv[1]),atoi(argv[2]))
   elif len(argv) == 4:
