@@ -71,19 +71,17 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
   print 'Running %dx%dx%d Simulation with %d TimeSteps---This Might Take a While' % (n,n,n,t)
   fig = plt.figure()
   ax = fig.add_subplot(111, projection='3d')
-  color = Plot(Grid,ax)
-  color.set_clim(0, 10)
-  plt.colorbar(color)
-  print 'time = 0 Grid=\n',Grid
-  fig.savefig('_tmp00000.png')
   for i in range(1,t):
     ax.cla()
-    Grid=GetNextGrid(Grid,BoundryCondition)
     color = Plot(Grid,ax)
+    if i == 0:  
+      color.set_clim(0, 10)
+      plt.colorbar(color)
     print 'time =',i,'Grid=\n',Grid
     fname = '_tmp%05d.png'%i
   #  print 'Saving frame', fname
     fig.savefig(fname)
+    Grid=GetNextGrid(Grid,BoundryCondition)
   #plt.show()
   print 'Making movie animation.mpg - this make take a while'
   system("ffmpeg -y -qscale 1 -f image2 -r 5 -i _tmp%05d.png Animation.mkv")
