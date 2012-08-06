@@ -8,7 +8,7 @@
 # and then it visualizes this diffusion using matplotlib
 #
 
-
+import multiprocessing, time
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -16,35 +16,6 @@ from sys import argv
 from os import system, remove
 from string import atoi
 ################################################################################
-################################################################################
-class TCProcessManager():
-  def __init__(self, MaxProcesses):
-    self.mGrid = {}
-    self.mCompactness = {}
-    self.mPurityCompactness = {}
-    self.mProcesses = {}
-    self.mMaxProcesses = MaxProcesses
-
-################################################################################
-  def WaitForAnyProcessToTerminate(self, n):
-    while len(self.mProcesses) > 0:
-      for [Key, [Process, Results]] in self.mProcesses.iteritems():
-        if not Process.is_alive():
-          self.mGrid[Key]            = np.array(Results)
-          del self.mProcesses[Key]
-          return
-      time.sleep(0.1)
-
-################################################################################
-  def AddProcess(self, Grid, x, n):
-    while len(self.mProcesses) >= self.mMaxProcesses:
-      self.WaitForAnyProcessToTerminate()
-    Key = x
-    Results = multiprocessing.RawArray(ctypes.c_double, n*n*n) 
-    Process = multiprocessing.Process(target=InnerNextGrid, args=(Results, Grid,x) )
-    Process.start()
-    self.mProcesses[Key] = [Process, Results]
-
 ################################################################################
 def Usage():
   print 'Diffuse.py [n t Initialize BoundryCondition](optional settings)' 
@@ -57,33 +28,66 @@ def Plot(Grid, ax):
   return color
 
 ################################################################################
-def GetNeighborhoodDifference(GridValue,BigGrid,x,y,z):
-  Diff=0
-  for i in range(3): 
-    for j in range(3):
-      for k in range(3):
-         Diff+=(GridValue-BigGrid[x+i,y+j,z+k])/20
-  if Diff > GridValue:
-    return 0
-  else:         
-   return Diff  
-    
 ################################################################################
-def GetNextGrid(Grid,BoundryCondition):
-  n=len(Grid)
-  NextGrid=np.zeros(shape=(n,n,n))
-  BigGrid=np.ones(shape=(n+2,n+2,n+2))*BoundryCondition
-  BigGrid[1:n+1,1:n+1,1:n+1]=Grid 
-  for x in range(n):
-    self.AddProcess(Grid, x ,n)
-  while len(self.mProcesses) > 0:
-    self.WaitForAnyProcessToTerminate()
-  for x in range(n)
-    NextGrid(x,:,:)= self.mGrid[x]
-  return 
+class TCProcessManager():
+  def __init__(self, MaxProcesses):
+    self.mGrid = {}
+    self.mCompactness = {}
+    self.mPurityCompactness = {}
+    self.mProcesses = {}
+    self.mMaxProcesses = MaxProcesses
 
 ################################################################################
-def InnerGetNextGrid(Grid, fig, ax)
+  def WaitForAnyProcessToTerminate(self):
+    while len(self.mProcesses) > 0:
+      for [Key, [Process, Results]] in self.mProcesses.iteritems():
+        if not Process.is_alive():
+          self.mGrid[Key]= np.array(Results)
+          del self.mProcesses[Key]
+          return
+      time.sleep(0.1)
+
+################################################################################
+  def AddProcess(self, Grid, x, n):
+    while len(self.mProcesses) >= self.mMaxProcesses:
+      self.WaitForAnyProcessToTerminate()
+    Key = x
+    #Results = multiprocessing.RawArray(ctypes.c_double, n*n*n) 
+    Results = multiprocessing.Array("d", n*n*n)
+    Process = multiprocessing.Process(target=InnerGetNextGrid, args=(Results, Grid,x) )
+    Process.start()
+    self.mProcesses[Key] = [Process, Results]
+
+################################################################################
+  def GetNeighborhoodDifference(GridValue,BigGrid,x,y,z):
+    Diff=0
+    for i in range(3): 
+      for j in range(3):
+        for k in range(3):
+           Diff+=(GridValue-BigGrid[x+i,y+j,z+k])/20
+    if Diff > GridValue:
+      return 0
+    else:         
+     return Diff  
+      
+################################################################################
+  def GetNextGrid(self,Grid,BoundryCondition):
+    n=len(Grid)
+    NextGrid=np.zeros(shape=(n,n,n))
+    BigGrid=np.ones(shape=(n+2,n+2,n+2))*BoundryCondition
+    BigGrid[1:n+1,1:n+1,1:n+1]=Grid 
+    for x in range(n):
+      self.AddProcess(Grid, x ,n)
+    while len(self.mProcesses) > 0:
+      self.WaitForAnyProcessToTerminate()
+    for x in range(n):
+      print 'self.mGrid[x] =',self.mGrid[x]
+      print 'reshapeself.mGrid[x] =',self.mGrid[x].reshape(n,n)
+      NextGrid[x,:,:]= self.mGrid[x].reshape(n,n,n)
+    return 
+  
+################################################################################
+def InnerGetNextGrid(self,Grid, i):
   for j in range(n):
     for k in range(n):
       Diff =GetNeighborhoodDifference(Grid[i,j,k],BigGrid,i,j,k)
@@ -91,8 +95,9 @@ def InnerGetNextGrid(Grid, fig, ax)
         NextGrid[i,j,k] = Grid[i,j,k] - Diff
       else:
         NextGrid[i,j,k] = 0
-  
+
  
+################################################################################
 ################################################################################
 def Diffuse(n,t,Initialize=0,BoundryCondition=0):
   if Initialize == 0:
@@ -118,6 +123,7 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
   #  print 'Saving frame', fname
     fig.savefig(fname)
     Grid = ProcessManager.GetNextGrid(Grid, BoundryCondition)
+    print 'time =',i,'Grid=\n',Grid
   #plt.show()
   print 'Making movie animation.mpg - this make take a while'
   system("ffmpeg -y -qscale 1 -f image2 -r 5 -i _tmp%05d.png Animation.mkv")
