@@ -49,7 +49,7 @@ def GetNextGrid(Grid,BoundryCondition):
     for j in range(n):
       for k in range(n):
         Diff =GetNeighborhoodDifference(Grid[i,j,k],BigGrid,i,j,k)
-        if Diff >.1:
+        if Diff >=0:
            NextGrid[i,j,k] = Grid[i,j,k] - Diff
         else:
            NextGrid[i,j,k] = 0
@@ -71,13 +71,12 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
   print 'Running %dx%dx%d Simulation with %d TimeSteps---This Might Take a While' % (n,n,n,t)
   fig = plt.figure()
   ax = fig.add_subplot(111, projection='3d')
-  for i in range(1,t):
+  for i in range(t):
     ax.cla()
     color = Plot(Grid,ax)
     if i == 0:  
       color.set_clim(0, 10)
       plt.colorbar(color)
-    print 'time =',i,'Grid=\n',Grid
     fname = '_tmp%05d.png'%i
   #  print 'Saving frame', fname
     fig.savefig(fname)
@@ -91,7 +90,7 @@ def Diffuse(n,t,Initialize=0,BoundryCondition=0):
 ################################################################################
 if __name__ == '__main__':
   if len(argv)<2:
-    Diffuse(4,10)
+    Diffuse(10,100)
   elif len(argv) == 2:
     if argv[1]=='-h' or argv[1]=='--help':
       Usage()
