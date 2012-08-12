@@ -5,6 +5,7 @@
 \date{6/18/2012}
 \usepackage[margin=0.5in]{geometry}
 \usepackage{amsfonts}
+\usepackage{listings}
 \usepackage{graphicx}
 
 \begin{document}
@@ -67,6 +68,12 @@ Matplot lib on the other hand is a plotting library which is designed to quckly 
 
 \subsection{Multiprocessing Module}
 The compuational power require to compute large grid sizes of 3 dimensional cellular automata is not insignificant. Parallel processing, the utilization of multiple processors to carry out simultaneous calculations could greatly increase the performance of our CA. The python mulitprocessing library was leveraged to give the python access to multiple cpu cores. Unfortuanlty given time constraints the multiprocessing implimentation is not yet fully implimented. Howerver work on it will continue and all parallel code is availble on the $para$ git branch.
+
+\section{Source Code}
+
+All source code including the uncompleted parallel branch and experimental results are availble 
+via github using command: \textbf{\$git clone https://github.com/dloman/Diffusion3d.git}
+
 \section{Results}
 All experients shown were done using a boundry condition of 0 to ensure continuity in all tests. In each experiement we began all cells at a the maximum value of 10.0, other initial conditions are easily possible but the most interesting results came from these initial conditions. In the following figure you can see the grid at initialization.
 \begin{figure}[ht!]
@@ -138,7 +145,6 @@ Math. Model.}, {\bf 26}, 701-714(2002).
 in the small-world network model, {\it Phys. Rev.} E, {\bf
 60},7332-7342 (1999).
 
-
 \bibitem{Tomassini} Tomassini M., {\it Generalized automata networks},
 7th Int. Conference on Cellular Automata for Research and Industry,
 ACRI 2006, France, {\it Lecture Notes in Computer Sciences}, {\bf
@@ -161,12 +167,13 @@ networks, {\it Nature} (London), {\bf 393}, 440-442 (1998).
 Reading, Mass: Addison-Wesley (1994).
 
 \bibitem{wolfram} S. Wolfram, {\it A New Kind of Science, Champaign, Illinois}, 2002.
-\bibitem{mplot} {\it Matplotlib} http://en.wikipedia.org/wiki/Matplotlib 2012.  
-\bibitem{numpy} {\it Numpy} http://en.wikipedia.org/wiki/Numpy 2012.
 
 \bibitem{yang01} Yang X. S., Chaos in small-world networks, {\it
 Phys. Rev. E.}, {\bf 63}, 046206 (2001).
 
+\bibitem{mplot} {\it Matplotlib} http://en.wikipedia.org/wiki/Matplotlib 2012.  
+
+\bibitem{numpy} {\it Numpy} http://en.wikipedia.org/wiki/Numpy 2012.
 
 \end{thebibliography}
 \end{document}
