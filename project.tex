@@ -4,31 +4,169 @@
 \author{Daniel Loman}
 \date{6/18/2012}
 \usepackage[margin=0.5in]{geometry}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
 \begin{document}
 \maketitle
 \begin{abstract}
-Conway's Game of Life is the classic example of emergence in cellular automata. Presented here is a 2D and 3D expansion of the original version of Conway's Game of Life. Extension into 3 spatial dimensions as well as an extension of the 1 or 0 based neuron approach to a numerical scale ranging from 1 to 10. During this study we witnessed distinct emergent behaviors... when completed...
+Conway's Game of Life is the classic example of emergence in cellular automata. Presented here is a 2D and 3D expansion of the original version of Conway's Game of Life. Extension into 3 spatial dimensions as well as an extension of the 1 or 0 based neuron approach to a numerical scale ranging from 1 to 10. During this study we witnessed rapid trends towards equilibrum states dependent on the location transition function, initial conditions and boudnry conditions.
 \end{abstract}
 \section{Introduction}
-Conway's Game of Life, further refereed to as GoL, is a cellular automata based game based upon the mathematical problems presented by John Von Neumann. The GoL provides an simple mechanism for the study of emergence in self-organization.
+Conway's Game of Life, further refereed to as GoL, is a cellular automata based game based upon the mathematical problems presented by John Von Neumann. The GoL provides an simple mechanism for the study of emergence in self-organization.\cite{arc02}
 Extending the GoL to 3 spatial dimensions and increasing the complexity of each individual automata state, allows a significant increase in the complexity of the interactions we are able to model. 
 Allowing for the simulation of diffusion, whether that be diffusion of chemical reactions or heat flow.  
 \subsection{Cellular Automata}
  Cellular automata modeling techniuqe based on modeling a manifold 
  using a finite number of discrete states. 
- Each automata has a set of additionally cells commonly refered to as its neighbors. 
+ Each automata has a set of additionally cells commonly refered to as its neighbors.\cite{boc} 
  This neighborhood of cells are the set of cells residing some specific minimum spatial distance from the cell itself. 
- Cellular automata state transformation are dependent on the state of thier neighbors and specific set of rules that the cellular automata is operating on. 
+ Cellular automata state transformation are dependent on the state of thier neighbors and specific set of rules that the cellular automata is operating on.\cite{guinot}
  This respect is where cellular automata differ from coupled map lattice, state values are entirley dependent on inital conditions, and neighborhood state values.
  Traditionally the structure of cellular automata states are constructed using the neuron model, or the states can be either 'on' or 'off'. 
- More Complex automata can also be modeled with state complexity significantly more complex then 1s and 0s.
+ More complex automata can also be modeled with state complexity significantly more complex then 1s and 0s.\cite{wolfram}
  \subsection{Diffusion}
  Diffusion is transportation mechanism that doesn not require bulk movement. 
- Molecular diffusion is consider the result of the random walk powered by thermal energy. 
- Diffusion is most often model using vector wave equations. Vector calculous models of diffusion allow for the modeling of an infinite number of particles qucikly and computatinally less intensive. 
- Discretization of diffusion allows for more a more fine grained approach, at the cost of an increase in compuational complexity.
+ Molecular diffusion is consider the result of the random walk powered by thermal energy. \cite{appert}
+ Diffusion is most often model using vector wave equations. Vector calculous models of diffusion allow for the modeling of an infinite number of particles qucikly and computatinally less intensive.\cite{Tomas1} 
+ Discretization of diffusion allows for more a more fine grained approach, at the cost of an increase in compuational complexity.\cite{newman99}
 \section{Experimental Background}
-Diffusion
+This experiment updates the classic 2D binary state cellular automata or CA which is defined by 
+the tuple $[ \mathbb{z},\sum,f ]$ where $\mathbb{z}$ is defined as the set of intergers, 
+each automata has 8 in the 2D case or 26 in the 3D case classical Moore Neighbors. 
+$i u(x)={y \in \mathbb{z}: x \ne y \& |x-y \leq 1} $. It also follows that $\sum ={0,1}$ in the classical cellualar automata but in this experiments case is extended to be the range of double precision floating point number rangeing from [0.0,10.0]. $f$ is defined as the local transition function, in the classical cellular automata this is defined as\cite{watts99}\cite{watts98}
+\begin{equation}
+x^{t+1}=f(u(x^{t}))) = \left\{ 
+  \begin{array}{l l}
+    1, & \quad \textrm{if $x^{t} =0$ and $\sigma_{x}^{t} \in [\theta_{1},\theta_{2}]$ }\\
+       & \quad \textrm{or $x^{t} = 1$ and $\sigma^{t}_{x} \in [\delta_{1},\delta_{2}]$ }\\
+    0, & \quad \textrm{otherwise} \\
+  \end{array} \right.
+\end{equation}  
+In this experiment the local transition function is the subtraction of a scaled value of the average value of the 
+cell's 26 neighbors. It is defined as the following equation.
+\begin{equation} 
+x^{t+1}=f(u(x^{t}))) = x^{t} - \sum_{-1 \leq x \geq 1} \sum_{-1 \leq y \geq 1} \sum_{-1 \leq z \geq 1} F(u(x^{t}(x,y,z))
+\end{equation} 
+
+\section{Design}
+In this experiment a 3 dimensional cellular automata was created and leveraged to model heat or chemical diffusion in a solid object. 
+For each time step a plot is generated and the next time steps grid is generated. When generating the next generation grid all values 
+are compared to thier neighboring values and the local transition function is evaluated and applied. Once all time steps are completed an animation is made of all the plots.
+\section{Implimentation} 
+This experiment was implemented using the python programming language. 
+Python was choosen for its flexibility, its combination of object oriented design princibles, its rich feature set, 
+as well as the power and flexibility of the open source graphing utilties and matrix processing modules. 
+Specifically the Numpy and Matplotlib modules.
+
+\subsection{Numpy $\&$ Matplotlib }
+Numpy and Matplotlib are extensions, or modules to the python programming language. Because python is an interpreted language 
+many mathimatical functions run extrmely slowly when compared to the run times of compiled software. 
+Numpy solves this issue by implimenting most mathmatical algorithms as well as matrix and array mathamatics with runtimes nearly eqivalent to C or FORTRAN code.\cite{mplot} 
+Matplot lib on the other hand is a plotting library which is designed to quckly and easily take Numpy arrays and matricies and make powerful complex plots leveraging the power of OpenGL.\cite{numpy} 
+
+\subsection{Multiprocessing Module}
+The compuational power require to compute large grid sizes of 3 dimensional cellular automata is not insignificant. Parallel processing, the utilization of multiple processors to carry out simultaneous calculations could greatly increase the performance of our CA. The python mulitprocessing library was leveraged to give the python access to multiple cpu cores. Unfortuanlty given time constraints the multiprocessing implimentation is not yet fully implimented. Howerver work on it will continue and all parallel code is availble on the $para$ git branch.
+\section{Results}
+All experients shown were done using a boundry condition of 0 to ensure continuity in all tests. In each experiement we began all cells at a the maximum value of 10.0, other initial conditions are easily possible but the most interesting results came from these initial conditions. In the following figure you can see the grid at initialization.
+\begin{figure}[ht!]
+\centering
+\caption{CA when $t=0$}
+\includegraphics[scale=0.2]{fig1.eps}
+\end{figure}
+
+\vspace{7mm}
+
+As the time step is increased the boundry condition starts efffecting, most significantly in the 8 corners of the cube, the CA's values.
+ 
+
+\begin{figure}[ht!]
+\centering
+\caption{CA when $t=33$}
+\includegraphics[scale=0.2]{fig2.eps}
+\end{figure}
+
+\vspace{7mm}
+
+As time increases further the flow spreads further into the center of the cube as shown below:
+
+\vspace{5mm}
+
+\begin{figure}[ht!]
+\centering
+\caption{CA when $t=66$}
+\includegraphics[scale=0.2]{fig3.eps}
+\end{figure}
+
+\vspace{100mm}
+
+until all values of the CA approach equlibrium.
+
+\begin{figure}[ht!]
+\centering
+\caption{CA when $t=100$}
+\includegraphics[scale=0.2]{fig4.eps}
+\end{figure}
+
+\vspace{5mm}
+
+\section{Conclusion}
+Cellular automata are a powerful and interesting tool for use in the study of diffusive system. They allow fine grain control of system interactions and indepth view of real time systme properites\cite{weimar}The evolution of the CA values is strictly controlled, like in all CA, by the local transition function and the boundry conditions\cite{wolfram94}. The averageing aspect of the local transion function as well as the forced value boundry conditions implimented in this experiemnt lead to the CA treding rapidly towards eqiulibrium. 
+With a different implimentation of local transion functions, such as avergaing plus randomness\cite{yang01} or marchov chain random walks, as well as 
+changes to the boundry condition system, such as boundries with no effect on the system would have significant impact on the behavior of the system. 
+These types of behaviors would have be of interest to be studied in further detail in the future.
+
+\begin{thebibliography}{A}
+
+\bibitem{boc} Boccara N. and M. Roger,
+    Some properties of local and nonlocal site exchange deterministic
+    cellular automata, {\it Int. J. Modern Phys.}, {\bf C5},581-588 (1994).
+
+\bibitem{arc02} De Arcaneglis, L. and Herrmann, H. J.,
+Self-organized criticality on small world networks, {\it Physica
+A}, {\bf 308}, 545-549 (2002).
+
+\bibitem{appert} Appert C. and Zaleski S., Lattice gas with a
+liquid-gas transition, {\it Phys. Rev. Lett.}, {\bf 64}, 1-4
+(1990).
+
+\bibitem{guinot} Guinot V., Modelling using stochastic, finite state
+cellular automata: rule inference from continuum model, {\it Appl.
+Math. Model.}, {\bf 26}, 701-714(2002).
+
+\bibitem{newman99} Newman M. E. J., Watts D. J., Scaling and percolation
+in the small-world network model, {\it Phys. Rev.} E, {\bf
+60},7332-7342 (1999).
 
 
+\bibitem{Tomassini} Tomassini M., {\it Generalized automata networks},
+7th Int. Conference on Cellular Automata for Research and Industry,
+ACRI 2006, France, {\it Lecture Notes in Computer Sciences}, {\bf
+4173}, 14-28 (2006).
+
+\bibitem{Tomas1} Tomassini M., Giacobini M., Darabos C.,
+Evolution and dynamics of small-world cellular automata, {\it
+Complex Systems}, {\bf 15}, 261-284 (2005).
+
+\bibitem{watts99} Watts D. J., {\it Small worlds: The dynamics of networks
+between order and randomness}, Princeton Univ. Press, (1999).
+
+\bibitem{watts98} Watts D. J., Strogatz S. H., Collective dynamics of small-world
+networks, {\it Nature} (London), {\bf 393}, 440-442 (1998).
+
+\bibitem{weimar} Weimar J. R., Cellular automata for reaction-diffusion systems,
+{\it Parallel computing}, {\bf 23}, 1699-1715 (1997).
+
+\bibitem{wolfram94} Wolfram, S., {\it Cellular automata and complexity},
+Reading, Mass: Addison-Wesley (1994).
+
+\bibitem{wolfram} S. Wolfram, {\it A New Kind of Science, Champaign, Illinois}, 2002.
+\bibitem{mplot} {\it Matplotlib} http://en.wikipedia.org/wiki/Matplotlib 2012.  
+\bibitem{numpy} {\it Numpy} http://en.wikipedia.org/wiki/Numpy 2012.
+
+\bibitem{yang01} Yang X. S., Chaos in small-world networks, {\it
+Phys. Rev. E.}, {\bf 63}, 046206 (2001).
+
+
+\end{thebibliography}
 \end{document}
