@@ -18,11 +18,11 @@ Conway's Game of Life, further referred to as GoL, is a cellular automata based 
 Extending the GoL to 3 spatial dimensions and increasing the complexity of each individual automata state allows a significant increase in the complexity of the interactions we are able to model
 , allowing for the simulation of diffusion, whether that be diffusion of chemical reactions or heat flow.  
 \subsection{Cellular Automata}
- Cellular automata modeling techniques are based on modeling a manifold 
+ Cellular automata is a modeling techniques are based on modeling a manifold 
  using a finite number of discrete states. 
  Each automata has a set of additional cells commonly referred to as its neighbors.\cite{boc} 
  This neighborhood of cells is the set of cells residing in some specific minimum spatial distance from the cell itself. 
- Cellular automata state transformations are dependent on the state of their neighbors and a specific set of rules that the cellular automata is operating on.\cite{guinot}
+ Cellular automata state transformations are dependent on the state of their neighbors and a specific set of rules that the cellular automata is operating on commonly refeed to as a local transition function.\cite{guinot}
  This respect is where cellular automata differ from coupled map lattices; state values are entirely dependent on initial conditions and neighborhood state values.
  Traditionally the structure of cellular automata states are constructed using the neuron model; the states can be either 'on' or 'off'. 
  More complex automata can also be modeled with state complexity significantly more complex than 1s and 0s.\cite{wolfram}
