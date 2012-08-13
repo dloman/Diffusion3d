@@ -11,31 +11,31 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Conway's Game of Life is the classic example of emergence in cellular automata. Presented here is a 2D and 3D expansion of the original version of Conway's Game of Life. Extension into 3 spatial dimensions as well as an extension of the 1 or 0 based neuron approach to a numerical scale ranging from 1 to 10. During this study we witnessed rapid trends towards equilibrum states dependent on the location transition function, initial conditions and boudnry conditions.
+Conway's Game of Life is the classic example of emergence in cellular automata. Presented here is a 2D and 3D expansion of the original version of Conway's Game of Life. Extension into 3 spatial dimensions as well as an extension of the 1 or 0 based neuron approach to a numerical scale ranging from 1 to 10. During this study we witnessed rapid trends towards equilibrium states dependent on the location transition function, initial conditions and boudnry conditions.
 \end{abstract}
 \section{Introduction}
 Conway's Game of Life, further refereed to as GoL, is a cellular automata based game based upon the mathematical problems presented by John Von Neumann. The GoL provides an simple mechanism for the study of emergence in self-organization.\cite{arc02}
 Extending the GoL to 3 spatial dimensions and increasing the complexity of each individual automata state, allows a significant increase in the complexity of the interactions we are able to model. 
 Allowing for the simulation of diffusion, whether that be diffusion of chemical reactions or heat flow.  
 \subsection{Cellular Automata}
- Cellular automata modeling techniuqe based on modeling a manifold 
+ Cellular automata modeling technique based on modeling a manifold 
  using a finite number of discrete states. 
- Each automata has a set of additionally cells commonly refered to as its neighbors.\cite{boc} 
+ Each automata has a set of additionally cells commonly referred to as its neighbors.\cite{boc} 
  This neighborhood of cells are the set of cells residing some specific minimum spatial distance from the cell itself. 
- Cellular automata state transformation are dependent on the state of thier neighbors and specific set of rules that the cellular automata is operating on.\cite{guinot}
- This respect is where cellular automata differ from coupled map lattice, state values are entirley dependent on inital conditions, and neighborhood state values.
+ Cellular automata state transformation are dependent on the state of their neighbors and specific set of rules that the cellular automata is operating on.\cite{guinot}
+ This respect is where cellular automata differ from coupled map lattice, state values are entirely dependent on initial conditions, and neighborhood state values.
  Traditionally the structure of cellular automata states are constructed using the neuron model, or the states can be either 'on' or 'off'. 
  More complex automata can also be modeled with state complexity significantly more complex then 1s and 0s.\cite{wolfram}
  \subsection{Diffusion}
  Diffusion is transportation mechanism that doesn not require bulk movement. 
  Molecular diffusion is consider the result of the random walk powered by thermal energy. \cite{appert}
- Diffusion is most often model using vector wave equations. Vector calculous models of diffusion allow for the modeling of an infinite number of particles qucikly and computatinally less intensive.\cite{Tomas1} 
- Discretization of diffusion allows for more a more fine grained approach, at the cost of an increase in compuational complexity.\cite{newman99}
+ Diffusion is most often model using vector wave equations. Vector calculus models of diffusion allow for the modeling of an infinite number of particles quickly and computationally less intensive.\cite{Tomas1} 
+ Discretization of diffusion allows for more a more fine grained approach, at the cost of an increase in computational complexity.\cite{newman99}
 \section{Experimental Background}
 This experiment updates the classic 2D binary state cellular automata or CA which is defined by 
-the tuple $[ \mathbb{z},\sum,f ]$ where $\mathbb{z}$ is defined as the set of intergers, 
+the tuple $[ \mathbb{z},\sum,f ]$ where $\mathbb{z}$ is defined as the set of integers, 
 each automata has 8 in the 2D case or 26 in the 3D case classical Moore Neighbors. 
-$i u(x)={y \in \mathbb{z}: x \ne y \& |x-y \leq 1} $. It also follows that $\sum ={0,1}$ in the classical cellualar automata but in this experiments case is extended to be the range of double precision floating point number rangeing from [0.0,10.0]. $f$ is defined as the local transition function, in the classical cellular automata this is defined as\cite{watts99}\cite{watts98}
+$i u(x)={y \in \mathbb{z}: x \ne y \& |x-y \leq 1} $. It also follows that $\sum ={0,1}$ in the classical cellular automata but in this experiments case is extended to be the range of double precision floating point number ranging from [0.0,10.0]. $f$ is defined as the local transition function, in the classical cellular automata this is defined as\cite{watts99}\cite{watts98}
 \begin{equation}
 x^{t+1}=f(u(x^{t}))) = \left\{ 
   \begin{array}{l l}
@@ -53,29 +53,29 @@ x^{t+1}=f(u(x^{t}))) = x^{t} - \sum_{-1 \leq x \geq 1} \sum_{-1 \leq y \geq 1} \
 \section{Design}
 In this experiment a 3 dimensional cellular automata was created and leveraged to model heat or chemical diffusion in a solid object. 
 For each time step a plot is generated and the next time steps grid is generated. When generating the next generation grid all values 
-are compared to thier neighboring values and the local transition function is evaluated and applied. Once all time steps are completed an animation is made of all the plots.
-\section{Implimentation} 
+are compared to their neighboring values and the local transition function is evaluated and applied. Once all time steps are completed an animation is made of all the plots.
+\section{Implementation} 
 This experiment was implemented using the python programming language. 
-Python was choosen for its flexibility, its combination of object oriented design princibles, its rich feature set, 
-as well as the power and flexibility of the open source graphing utilties and matrix processing modules. 
+Python was chosen for its flexibility, its combination of object oriented design principles, its rich feature set, 
+as well as the power and flexibility of the open source graphing utilities and matrix processing modules. 
 Specifically the Numpy and Matplotlib modules.
 
 \subsection{Numpy $\&$ Matplotlib }
 Numpy and Matplotlib are extensions, or modules to the python programming language. Because python is an interpreted language 
-many mathimatical functions run extrmely slowly when compared to the run times of compiled software. 
-Numpy solves this issue by implimenting most mathmatical algorithms as well as matrix and array mathamatics with runtimes nearly eqivalent to C or FORTRAN code.\cite{mplot} 
-Matplot lib on the other hand is a plotting library which is designed to quckly and easily take Numpy arrays and matricies and make powerful complex plots leveraging the power of OpenGL.\cite{numpy} 
+many mathematical functions run extremely slowly when compared to the run times of compiled software. 
+Numpy solves this issue by implementing most mathematical algorithms as well as matrix and array mathematics with runtimes nearly equivalent to C or FORTRAN code.\cite{mplot} 
+Matplot lib on the other hand is a plotting library which is designed to quickly and easily take Numpy arrays and matrices and make powerful complex plots leveraging the power of OpenGL.\cite{numpy} 
 
 \subsection{Multiprocessing Module}
-The compuational power require to compute large grid sizes of 3 dimensional cellular automata is not insignificant. Parallel processing, the utilization of multiple processors to carry out simultaneous calculations could greatly increase the performance of our CA. The python mulitprocessing library was leveraged to give the python access to multiple cpu cores. Unfortuanlty given time constraints the multiprocessing implimentation is not yet fully implimented. Howerver work on it will continue and all parallel code is availble on the $para$ git branch.
+The computational power require to compute large grid sizes of 3 dimensional cellular automata is not insignificant. Parallel processing, the utilization of multiple processors to carry out simultaneous calculations could greatly increase the performance of our CA. The python multiprocessing library was leveraged to give the python access to multiple cpu cores. Unfortuanlty given time constraints the multiprocessing implementation is not yet fully implemented. However work on it will continue and all parallel code is available on the $para$ git branch.
 
 \section{Source Code}
 
-All source code including the uncompleted parallel branch and experimental results are availble 
+All source code including the uncompleted parallel branch and experimental results are available 
 via github using command: \textbf{\$git clone https://github.com/dloman/Diffusion3d.git}
 
 \section{Results}
-All experients shown were done using a boundry condition of 0 to ensure continuity in all tests. In each experiement we began all cells at a the maximum value of 10.0, other initial conditions are easily possible but the most interesting results came from these initial conditions. In the following figure you can see the grid at initialization.
+All experiments shown were done using a boundary condition of 0 to ensure continuity in all tests. In each experiment we began all cells at a the maximum value of 10.0, other initial conditions are easily possible but the most interesting results came from these initial conditions. In the following figure you can see the grid at initialization.
 \begin{figure}[ht!]
 \centering
 \caption{CA when $t=0$}
@@ -84,7 +84,7 @@ All experients shown were done using a boundry condition of 0 to ensure continui
 
 \vspace{7mm}
 
-As the time step is increased the boundry condition starts efffecting, most significantly in the 8 corners of the cube, the CA's values.
+As the time step is increased the boundry condition starts effecting, most significantly in the 8 corners of the cube, the CA's values.
  
 
 \begin{figure}[ht!]
@@ -107,7 +107,7 @@ As time increases further the flow spreads further into the center of the cube a
 
 \vspace{100mm}
 
-until all values of the CA approach equlibrium.
+until all values of the CA approach equilibrium.
 
 \begin{figure}[ht!]
 \centering
@@ -118,9 +118,9 @@ until all values of the CA approach equlibrium.
 \vspace{5mm}
 
 \section{Conclusion}
-Cellular automata are a powerful and interesting tool for use in the study of diffusive system. They allow fine grain control of system interactions and indepth view of real time systme properites\cite{weimar}The evolution of the CA values is strictly controlled, like in all CA, by the local transition function and the boundry conditions\cite{wolfram94}. The averageing aspect of the local transion function as well as the forced value boundry conditions implimented in this experiemnt lead to the CA treding rapidly towards eqiulibrium. 
-With a different implimentation of local transion functions, such as avergaing plus randomness\cite{yang01} or marchov chain random walks, as well as 
-changes to the boundry condition system, such as boundries with no effect on the system would have significant impact on the behavior of the system. 
+Cellular automata are a powerful and interesting tool for use in the study of diffusive system. They allow fine grain control of system interactions and in-depth view of real time system properties\cite{weimar}The evolution of the CA values is strictly controlled, like in all CA, by the local transition function and the boundry conditions\cite{wolfram94}. The averaging aspect of the local transition function as well as the forced value boundry conditions implemented in this experiment lead to the CA trending rapidly towards equilibrium. 
+With a different implementation of local transition functions, such as averaging plus randomness\cite{yang01} or marchov chain random walks, as well as 
+changes to the boundry condition system, such as boundaries with no effect on the system would have significant impact on the behavior of the system. 
 These types of behaviors would have be of interest to be studied in further detail in the future.
 
 \begin{thebibliography}{A}
